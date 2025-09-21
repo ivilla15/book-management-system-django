@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidenav %}
+    <ul class="nav">
+        {% for item in item_list %}
+            <li class="nav-item me-3">
+                <a href="{{ item.link }}" class="nav-link">{{ item.item }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock sidenav %}
+
+{% block content %}
+<h1> Book Detail</h1>
+<table class="table table-bordered" style="position: relative; top:20px; width: 550px;">
+    <tr>
+        <th>
+            Book Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Publisher
+        </th>
+        <th>
+            Book Cover
+        </th>
+    </tr>
+    <tr>
+        <td>
+            {{ book.name }}
+        </td>
+        <td>
+            {{ book.price }}
+        </td>
+        <td>
+            {{ book.username }}
+        </td>
+        <td>
+            <img src="{% static book.pic_path %}" height="100"/>
+        </td>
+    </tr>
+</table>
+<div class="comments-section" style="position: relative; top:-225px; left:700px; width: 550px;">
+    <h1>Comments</h1>
+
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <strong>{{ comment.user.username }}</strong> ({{ comment.created_at }})
+                    <p>{{ comment.content }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <h3>Add a Comment</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Post Comment</button>
+        </form>
+    {% else %}
+        <p>You must be logged in to add a comment. <a href="{% url 'login' %}?next=/">Login</a></p>
+    {% endif %}
+</div>
+{% endblock content %}

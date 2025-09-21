@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidenav %}
+   {% for item in item_list %}
+    <li class="nav-item"><a href="{{ item.link }}" class="nav-link"> {{ item.item }}</a></li>
+   {% endfor %}
+{% endblock sidenav %}
+
+{% block content %}
+ <div class="text-center" style="position: relative; top: 50px; left: 120px;">
+        <h1 class="mb-4">User Login</h1>
+
+        <form action="{% url 'login' %}" method="post" class="w-50 mx-auto border p-2 rounded shadow-sm">
+            <div class="table-responsive">
+                <table class="table">
+                    {{ form.as_table }}
+                    <tr>
+                        <td style="position: relative; left: 170px;">
+                            <button type="submit" class="btn btn-primary w-100" >Login</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <p class="text-center mt-3">
+                To register, <a href="{% url 'register' %}" class="text-primary">Click Here</a>
+            </p>
+            <input type="hidden" name="next" value="{{ next }}" />
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock content %}

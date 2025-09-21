@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidenav %}
+      <ul class="nav">
+        {% for item in item_list %}
+            <li class="nav-item me-3">
+                <a href="{{ item.link }}" class="nav-link">{{ item.item }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock sidenav %}
+
+{% block content %}
+    <h1>About Us</h1>
+    <p>Welcome to the Book Exchange! This project was developed by CSULA students to help improve online book management.</p>
+
+    <h2>Meet the Team</h2>
+    <ul>
+    <li>
+        <strong>Dylan Huang</strong> - I am a junior majoring in Computer Science. I like competing in robotics and playing video games.
+    </li>
+    <li>
+        <strong>Thomas Ogden</strong> - I am a junior majoring in Computer Science. I like making rap songs and designing coding projects that scrape websites.
+    </li>
+    <li>
+        <strong>Cindy Huang</strong> - I am a Computer Science major. In my free time, I enjoy playing video games, watching shows, and listening to music.
+    </li>
+    <li>
+        <strong>Alexander Ramirez</strong> - I like to play video games and spend time with my pet cats.
+    </li>
+    <li>
+        <strong>Isaiah Villalobos</strong> - I am a junior majoring in Computer Science. In my free time, I like playing video games and listening to music.
+    </li>
+    <li>
+        <strong>Aaran Li</strong> - I am a junior majoring in Computer Science. In my free time, I like to sleep, eat and use the restroom.
+    </li>
+    </ul>
+
+    <h2>Our Mission</h2>
+    <p>We strive to provide users with a smooth platform for better efficiency and to easily manage their book collections. Our goal is to establish Book Exchange as the premier destination for bookworms worldwide!</p>
+{% endblock content %}

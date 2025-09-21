@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block sidenav %}
+    <ul class="nav">
+        {% for item in item_list %}
+            <li class="nav-item me-3">
+                <a href="{{ item.link }}" class="nav-link">{{ item.item }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock sidenav %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-2" style="position: relative; top: -50px; left: 500px;">My Favorites</h1>
+</div>
+    <div>
+        <table class="table table-bordered" style="position: relative; top:-40px; left: 300px;width: 700px;">
+            <thead>
+                <tr>
+                    <th style="width: 32%;">Book Name</th>
+                    <th style="width: 32%;">Publisher</th>
+                    <th style="width: 36%;">Remove from Favorites</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td><a href="book_detail/{{ book.id }}">{{ book.name }}</a></td>
+                        <td>{{ book.username }}</td>
+                        <td>
+                            <form action="{% url 'favorites_remove' book_id=book.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;padding:0;">
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
