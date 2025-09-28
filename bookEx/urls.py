@@ -22,6 +22,8 @@ from django.urls import include
 
 from django.views.generic.base import TemplateView
 from bookMng.views import Register
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -32,3 +34,6 @@ urlpatterns = [
          template_name="registration/register_success.html"),
          name='register-success'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

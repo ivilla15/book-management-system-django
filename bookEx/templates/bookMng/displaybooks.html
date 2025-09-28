@@ -2,76 +2,72 @@
 {% load static %}
 
 {% block sidenav %}
-     <ul class="nav">
-        {% for item in item_list %}
-            <li class="nav-item me-3">
-                <a href="{{ item.link }}" class="nav-link">{{ item.item }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+<ul class="nav">
+  {% for item in item_list %}
+    <li class="nav-item me-3">
+      <a href="{{ item.link }}" class="nav-link">{{ item.item }}</a>
+    </li>
+  {% empty %}
+    <li class="nav-item text-muted">No navigation items</li>
+  {% endfor %}
+</ul>
 {% endblock sidenav %}
 
 {% block content %}
 <div style="min-height: 80vh;">
-<h1>Display Books</h1>
-    <div align="">
-        <form method="GET" action="{% url 'search_books' %}">
-            <input type="text" name="q" placeholder="Search book name" required>
-            <button type="submit" class="btn btn-primary btn-sm">Search</button>
-            <br>
-            <br>
-        </form>
-    </div>
+  <h1>Display Books</h1>
 
-<table class="table table-bordered">
-    <tr>
-        <th>
-            Book Name
-        </th>
-        <th>
-            Publisher
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            Add to Shopping Cart
-        </th>
-        <th>
-            Add to Favorites
-        </th>
-    </tr>
+  <div>
+    <form method="get" action="{% url 'search_books' %}">
+      <input type="text" name="q" placeholder="Search book name" required>
+      <button type="submit" class="btn btn-primary btn-sm">Search</button>
+    </form>
+    <br>
+  </div>
 
-   {% for book in books %}
-    <tr>
-        <td>
-            <a href="book_detail/{{ book.id }}">{{ book.name }}</a>
-        </td>
-        <td>
-            {{ book.username }}
-        </td>
-        <td>
-            {{ book.price }}
-        </td>
-        <td>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Book Name</th>
+        <th>Publisher</th>
+        <th>Price</th>
+        <th>Add to Shopping Cart</th>
+        <th>Add to Favorites</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+        <tr>
+          <td>
+            <a href="{% url 'book_detail' book.id %}">{{ book.name }}</a>
+          </td>
+          <td>{{ book.username }}</td>
+          <td>${{ book.price|floatformat:2 }}</td>
+
+          <td>
             <form action="{% url 'cart_add' book_id=book.id %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;padding:0;">
-                    Add to Cart
-                </button>
+              {% csrf_token %}
+              <button type="submit" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;padding:0;">
+                Add to Cart
+              </button>
             </form>
-        </td>
-        <td>
-            <form action="{% url 'favorites_add' book_id=book.id %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;padding:0;">
-                    <img src="{% static 'star.png' %}" alt="Remove from Favorites" style="width: 20px; height: 20px;">
-                </button>
-            </form>
-        </td>
+          </td>
 
-    </tr>
-   {% endfor %}
-</table>
-    </div>
+          <td>
+            <form action="{% url 'favorites_add' book_id=book.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" aria-label="Add to Favorites" style="background:none;border:none;cursor:pointer;padding:0;">
+                <img src="{% static 'star.png' %}" alt="Add to Favorites" style="width:20px;height:20px;">
+              </button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5" class="text-center text-muted">No books available.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock content %}
